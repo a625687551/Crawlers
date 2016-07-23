@@ -36,7 +36,7 @@ class Spyder(object):
         timeandlevel=re.findall('<em>(.*?)</em>',eachclass,re.S)
         info['time']=timeandlevel[0]
         info['level']=timeandlevel[1]
-        info['learn-number']=re.search('<em class="learn-number" style="display: none;">(.*?)</em>',eachclass,re.S).group(1)
+        info['lear-num']=re.search('<em class="learn-number">(.*?)</em>',eachclass,re.S).group(1)
         return info
     #保存数据
     def saveinfo(self,classinfo):
@@ -45,8 +45,8 @@ class Spyder(object):
                 f.writelines('title:'+each['title']+'\n')
                 f.writelines('content:'+each['content']+'\n')
                 f.writelines('time:'+each['time']+'\n')
-                f.writelines('level:'+each['level']+'\n\n')
-                f.writelines('learn-number:'+each['level'+'\n\n'])
+                f.writelines('level:'+each['level']+'\n')
+                f.writelines('learn-number:'+each['lear-num']+'\n\n')
 
 
 if __name__=='__main__':
@@ -62,3 +62,4 @@ if __name__=='__main__':
             info=jikespyder.getinfo(each)
             classinfo.append(info)
     jikespyder.saveinfo(classinfo)
+    print('finally.....')
