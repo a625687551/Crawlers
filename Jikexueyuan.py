@@ -14,7 +14,7 @@ class Spyder(object):
         print('开始抓取课程信息：\n')
     #获取网页源代码
     def getsource(self,url):
-        # head=('User-Agent','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36')
+        head={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36'}
         html=requests.get(url,headers=head).text
         return html
     #翻页
