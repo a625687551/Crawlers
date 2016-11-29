@@ -38,4 +38,5 @@ class phantomjs_SS(object):
             except:
                 continue
         df = pd.DataFrame(standard, columns=['标准编号', '标准名称', '英文名称', '发布日期', '实施日期', '读者对象', '内容简介'])
+        print(df)
         return df
