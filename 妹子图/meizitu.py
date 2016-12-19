@@ -6,7 +6,10 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import os
+from datetime import datetime,timedelta
+from pymongo import MongoClient
 from Download import request
+
 
 class meizi():
     def mkdir(self,path):#创建文件夹保存
