@@ -6,13 +6,10 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import os
+from Download import request
 
-class meizi(object):
-    def request(sefl,url):
-        headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'}
-        content=requests.get(url,headers=headers)
-        return content
-    def mkdir(self,path):
+class meizi():
+    def mkdir(self,path):#创建文件夹保存
         path=path.strip()
         isExist=os.path.exists(os.path.join('/home/rising/图片/meizitu',path))
         if not isExist:
@@ -23,7 +20,7 @@ class meizi(object):
             print(u'名叫：',path,u'的文件夹已经存在','时间是',time.strftime('%Y-%m-%d %H:%M:%S',time.localtime()))
             return False
     def all_url(self,start_url):
-        start_html = self.request(start_url)
+        start_html = request.get(start_url,3)
         soup = BeautifulSoup(start_html.text, 'lxml')
         li_list = soup.find('div', {'class': 'all'}).find_all('a')
         for li in li_list:
@@ -35,7 +32,7 @@ class meizi(object):
             href = li['href']
             self.html(href)
     def html(self,href):
-        html = self.request(href)
+        html = request.get(href,3)
         html_soup = BeautifulSoup(html.text, 'lxml')
         max_span = html_soup.find('div', class_="pagenavi").find_all('span')[-2].get_text()
         for page in range(1, int(max_span) + 1):
@@ -43,17 +40,18 @@ class meizi(object):
             self.img(page_url)
             time.sleep(3)
     def img(self,page_url):
-        img_html = self.request(page_url)
+        img_html = request.get(page_url,3)
         img_soup = BeautifulSoup(img_html.text, 'lxml')
         img_url = img_soup.find('div', class_="main-image").find('img')['src']
         self.save(img_url)
     def save(self,img_url):
         name = img_url[-9:-4]
-        img = self.request(img_url)
+        print(u'开始保存',img_url)
+        img = request.get(img_url,3)
         with open(name + '.jpg', 'ab') as f:
             f.write(img.content)
             # time.sleep(0.5)
 
 # if __name__=='_main_':
-Mzitu=meizi()
-Mzitu.all_url('http://www.mzitu.com/all')
+Mzitu=meizi()##实例化
+Mzitu.all_url('http://www.mzitu.com/all')##给函数all_url传入参数，启动爬虫（入口）

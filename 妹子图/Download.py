@@ -31,15 +31,15 @@ class download():
         for i in iplistn:
             i = re.sub('\n', '', i)
             self.iplist.append(i.strip())
-    def get(self,url,timeout,proxy=None,num_retries=6):
+    def get(self,url,timeout,proxy=None,num_retries=6):#给函数的proxy默认为空
         UA=random.choice(self.user_agent_list)
         headers={'User-Agent':UA}
-        if proxy==None:
+        if proxy==None:##当代理为空时候，不使用代理获取response
             try:
                 return requests.get(url,headers=headers,timeout=timeout)
             except:
-                if num_retries>0:
-                    time.sleep(10)
+                if num_retries>0:##给定的重试次数
+                    time.sleep(10)##延迟10秒钟
                     print(u'获取网页错误，10s后将获取倒数第',num_retries,u'次')
                     return self.get(url,timeout,num_retries-1)
                 else:
@@ -64,5 +64,4 @@ class download():
                     print(u'代理也不行了····取消代理')
                     return self.get(url,3)
 
-xz=download()
-print(xz.get('http://meizitu.com',3).headers)
+request=download()
