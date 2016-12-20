@@ -9,6 +9,8 @@ import json
 from selenium import webdriver
 from requests.auth import AuthBase
 from requests.auth import HTTPBasicAuth
+from time import ctime,sleep
+import _thread
 
 # class Crawl(object):
 #     def __init__(self,username,password):
@@ -47,16 +49,21 @@ from requests.auth import HTTPBasicAuth
 # if __name__=='__main__':
 #     Crawl('wangjianfeng','password').web_post()
 
-class Solution:
-    # @param {int[]} A an integer array
-    # @return nothing
-    def sortIntegers(self, A):
-        # Write your code here
-        for i in range(len(A) - 1):
-            for j in range(i + 1, len(A)):
-                if A[i] > A[j]:
-                    temp = A[i]
-                    A[i] = A[j]
-                    A[j] = temp
-        return A
-
+def loop0():
+    print('start loop0 at ',ctime())
+    sleep(4)
+    print('loop0 done at ',ctime())
+def loop1():
+    print('start loop1 at ',ctime())
+    sleep(2)
+    print('loop0 done at ',ctime())
+def main():
+    print('starting at ',ctime())
+    _thread.start_new_thread(loop0(),())
+    _thread.start_new_thread(loop1(),())
+    # loop0()
+    # loop1()
+    sleep(6)
+    print('all done at ',ctime())
+if __name__=='__main__':
+    main()
