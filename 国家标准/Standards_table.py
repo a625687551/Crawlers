@@ -43,8 +43,10 @@ for content in contents:
     result.extend(re.split(pattern, content))
     result_list.extend(re.findall(pattern, content))
 
+# print(result,'\n',result_list)
 data = {}
 for i in result_list:
     result_index = result.index(i) + 1
+    # print(result_index)
     data[i.split('\t')[0]] = result[result_index].strip()
     print(i.split('\t')[0], result[result_index])
