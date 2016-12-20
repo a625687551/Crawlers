@@ -3,20 +3,67 @@
 'test'
 
 from lxml import etree
+from bs4 import BeautifulSoup
 import requests
 import json
+from selenium import webdriver
+from requests.auth import AuthBase
+from requests.auth import HTTPBasicAuth
+from time import ctime,sleep
+import _thread
 
-url='http://tieba.baidu.com/p/3522395718?pn=1'
-head={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36'}
-# html=requests.get(url,headers=head).text
-selector = etree.HTML(requests.get(url,headers=head).text)
-# content_field = selector.xpath('//div[@class="l_post j_l_post l_post_bright  "]')
-content_field = selector.xpath('//div[@class="l_post j_l_post l_post_bright  "]')
-# print(content_field)
-for each in content_field:
-    reply_info=json.loads(each.xpath('@data-field')[0].replace('&quot',''))
-    author=reply_info["author"]["user_name"]
-    topic_reply_time = reply_info['content']['date']
-    content=each.xpath('div[@class="d_post_content_main"]/div/cc/div[@class="d_post_content j_d_post_content  clearfix"]/text()')[0]
-    print(author,topic_reply_time,content)
-    print('finally.....')
+# class Crawl(object):
+#     def __init__(self,username,password):
+#         self.username,self.password=username,password
+#         self.post_data={'username':self.username,
+#                    'password':self.password,
+#                    }
+#         self.post_url='http://pythonscraping.com/pages/cookies/welcome.php'
+#     def web_post(self):
+#         page_source=requests.post(self.post_url,self.post_data)
+#         print(page_source.text)
+#         print(page_source.cookies.get_dict())
+#         print('---------------')
+#         login_page=requests.get('http://pythonscraping.com/pages/cookies/profile.php',cookies=page_source.cookies)
+#         print(login_page.text)
+#
+# if __name__=='__main__':
+#     Crawl('wangjianfeng','password').web_post()
+
+#session 方法
+# class Crawl(object):
+#     def __init__(self,username,password):
+#         self.username,self.password=username,password
+#         self.post_data={'username':self.username,
+#                    'password':self.password,
+#                    }
+#         self.post_url='http://pythonscraping.com/pages/cookies/welcome.php'
+#     def web_post(self):
+#         s=requests.session()
+#         page_source=s.post(self.post_url,data=self.post_data)
+#         print(page_source.cookies.get_dict())
+#         print('----------')
+#         check_page=s.get('http://pythonscraping.com/pages/cookies/profile.php')
+#         print(check_page.text)
+#
+# if __name__=='__main__':
+#     Crawl('wangjianfeng','password').web_post()
+
+def loop0():
+    print('start loop0 at ',ctime())
+    sleep(4)
+    print('loop0 done at ',ctime())
+def loop1():
+    print('start loop1 at ',ctime())
+    sleep(2)
+    print('loop0 done at ',ctime())
+def main():
+    print('starting at ',ctime())
+    _thread.start_new_thread(loop0(),())
+    _thread.start_new_thread(loop1(),())
+    # loop0()
+    # loop1()
+    sleep(6)
+    print('all done at ',ctime())
+if __name__=='__main__':
+    main()

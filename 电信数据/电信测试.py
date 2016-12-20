@@ -15,6 +15,7 @@ headers = {
 }
 #使用cookies信息登录
 session=requests.session()
+<<<<<<< HEAD
 # session.cookies=cookielib.LWPCookieJar(filename='cookies')
 # try:
 #     session.cookies.load(ignore_discard=True)
@@ -25,6 +26,18 @@ def get_xsrf():
     '''xsrf是一个动态参数，后来貌似不用提交也可以'''
     #获取登录时候用到的xsrf
     index_url = 'https://www.zhihu.com/'
+=======
+session.cookies=cookielib.LWPCookieJar(filename='cookies')
+try:
+    session.cookies.load(ignore_discard=True)
+except:
+    print('cookies 未能加载')
+
+def get_xsrf():
+    '''xsrf是一个动态参数'''
+    index_url='https://www.zhihu.com/'
+    #获取登录时候用到的xsrf
+>>>>>>> origin/master
     index_page=session.get(index_url,headers=headers)
     html=index_page.text
     pattern=r'name="_xsrf" value="(.*?)"/>'
@@ -39,6 +52,10 @@ def get_captcha():
     r=session.get(captcha_url,headers=headers)
     with open('captcha.jpg','wb') as f:
         f.write(r.content)
+<<<<<<< HEAD
+=======
+        # f.close()
+>>>>>>> origin/master
     # 用pillow 的 Image 显示验证码
     # 如果没有安装 pillow 到源代码所在的目录去找到验证码然后手动输入
     try:
@@ -52,7 +69,11 @@ def get_captcha():
     return captcha
 def isLogin():
     #通过查看个人用户信息来判断
+<<<<<<< HEAD
     url="https://www.zhihu.com/login/phone_num"
+=======
+    url="https://www.zhihu.com/settings/profile"
+>>>>>>> origin/master
     login_code=session.get(url,headers=headers,allow_redirects=False).status_code
     if login_code==200:
         return True
@@ -60,6 +81,7 @@ def isLogin():
         return False
 def login(secret,account):
     #通过输入用户名来判断是否是手机号码
+<<<<<<< HEAD
     if re.match(r'^1\d{10}$',account):
         print('手机号码登录\n')
         post_url="https://www.zhihu.com/login/phone_num"
@@ -68,6 +90,16 @@ def login(secret,account):
             'password':secret,
             'captcha_type': 'cn',
             'phone_num':account
+=======
+    if re.match(r"^1\d{10}$",account):
+        print('手机号码登录\n')
+        post_url="https://www.zhihu.com/settings/profile"
+        post_data={
+            '_xsrf':get_xsrf(),
+            'password':secret,
+            'remember_me':True,
+            'email':account
+>>>>>>> origin/master
         }
     else:
         if '@' in account:
@@ -79,6 +111,7 @@ def login(secret,account):
         post_data = {
             '_xsrf': get_xsrf(),
             'password': secret,
+<<<<<<< HEAD
             'captcha_type': 'cn',
             'email': account
         }
@@ -99,6 +132,23 @@ def login(secret,account):
     #     login_page=session.post(post_url,data=post_data,headers=headers)
     #     login_code=eval(login_page.text)
     #     print(login_code['msg'])
+=======
+            'remember_me': True,
+            'email': account
+        }
+    try:
+        #不要验证码直接登录
+        login_page=session.post(post_url,data=post_data,headers=headers)
+        login_code=login_page.text
+        print(login_page.status_code)
+        print(login_code)
+    except:
+        #需要输入验证码登录
+        postdata['captcha']=get_captcha()
+        login_page=session.post(post_url,data=post_data,headers=headers)
+        login_code=eval(login_page.text)
+        print(login_code['msg'])
+>>>>>>> origin/master
     session.cookies.save()
 
 if __name__=='__main__':
