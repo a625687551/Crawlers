@@ -47,6 +47,16 @@ from requests.auth import HTTPBasicAuth
 # if __name__=='__main__':
 #     Crawl('wangjianfeng','password').web_post()
 
-auth=HTTPBasicAuth('WANGJIANFENG','password')
-r=requests.post(url='http://pythonscraping.com/pages/auth/login.php',auth=auth)
-print(r.text)
+class Solution:
+    # @param {int[]} A an integer array
+    # @return nothing
+    def sortIntegers(self, A):
+        # Write your code here
+        for i in range(len(A) - 1):
+            for j in range(i + 1, len(A)):
+                if A[i] > A[j]:
+                    temp = A[i]
+                    A[i] = A[j]
+                    A[j] = temp
+        return A
+
