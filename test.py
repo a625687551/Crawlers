@@ -63,8 +63,8 @@ def loop1():
     print('loop0 done at ',ctime())
 def main():
     print('starting at ',ctime())
-    _thread.start_new_thread(loop0(),())
-    _thread.start_new_thread(loop1(),())
+    # _thread.start_new_thread(loop0(),())
+    # _thread.start_new_thread(loop1(),())
     # loop0()
     # loop1()
     sleep(6)
