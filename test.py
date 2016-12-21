@@ -10,8 +10,11 @@ from selenium import webdriver
 from requests.auth import AuthBase
 from requests.auth import HTTPBasicAuth
 from time import ctime,sleep
-import datetime,time
-import _thread
+import datetime
+import threading
+import re
+from atexit import register
+from urllib.request import urlopen as uopen
 
 # class Crawl(object):
 #     def __init__(self,username,password):
@@ -50,25 +53,21 @@ import _thread
 # if __name__=='__main__':
 #     Crawl('wangjianfeng','password').web_post()
 
-# def loop0():
-#     print('start loop0 at ',ctime())
-#     sleep(4)
-#     print('loop0 done at ',ctime())
-# def loop1():
-#     print('start loop1 at ',ctime())
-#     sleep(2)
-#     print('loop0 done at ',ctime())
-# def main():
-#     print('starting at ',ctime())
-#     _thread.start_new_thread(loop0(),())
-#     _thread.start_new_thread(loop1(),())
-#     # loop0()
-#     # loop1()
-#     sleep(6)
-#     print('all done at ',ctime())
-# if __name__=='__main__':
-#     main()
-print(datetime.datetime.now())
-print(ctime())
-print(time.localtime())
-print(time.gmtime())
+def loop0():
+    print('start loop0 at ',ctime())
+    sleep(4)
+    print('loop0 done at ',ctime())
+def loop1():
+    print('start loop1 at ',ctime())
+    sleep(2)
+    print('loop0 done at ',ctime())
+def main():
+    print('starting at ',ctime())
+    # _thread.start_new_thread(loop0(),())
+    # _thread.start_new_thread(loop1(),())
+    # loop0()
+    # loop1()
+    sleep(6)
+    print('all done at ',ctime())
+if __name__=='__main__':
+    main()
