@@ -16,32 +16,58 @@ import re
 from atexit import register
 from urllib.request import urlopen as uopen
 
-head={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36'}
-REGEX=re.compile('#([\d,]+)in Books')
-amzn='https://www.amazon.com/dp/'
-ISBNs={
-    '0132269937': 'Core Python Programming',
-    '0132356139': 'Python Web Development with Django',
-    '0137143419': 'Python Fundamentals',
-}
-def getranking(isbn):
-    # page=requests.get('{}{}'.format(amzn,isbn),headers=head)
-    # soup=BeautifulSoup(page.text,'html.parser')
-    # print(REGEX.findall(soup.decode('utf-8')))
-    page = uopen('{}{}'.format(amzn, isbn))
-    soup=page.read()
-    page.close()
-    print(REGEX.findall(soup))
-def showranking(isbn):
-    print('{} ranked {}'.format(ISBNs[isbn],getranking(isbn)))
-def main():
-    print('at',datetime.datetime.now())
-    for isbn in ISBNs:
-        # showranking(isbn)
-        getranking(isbn)
+# class Crawl(object):
+#     def __init__(self,username,password):
+#         self.username,self.password=username,password
+#         self.post_data={'username':self.username,
+#                    'password':self.password,
+#                    }
+#         self.post_url='http://pythonscraping.com/pages/cookies/welcome.php'
+#     def web_post(self):
+#         page_source=requests.post(self.post_url,self.post_data)
+#         print(page_source.text)
+#         print(page_source.cookies.get_dict())
+#         print('---------------')
+#         login_page=requests.get('http://pythonscraping.com/pages/cookies/profile.php',cookies=page_source.cookies)
+#         print(login_page.text)
+#
+# if __name__=='__main__':
+#     Crawl('wangjianfeng','password').web_post()
 
-@register
-def _atexit():
-    print('all done at',datetime.datetime.now())
-if __name__ == '__main__':
+#session 方法
+# class Crawl(object):
+#     def __init__(self,username,password):
+#         self.username,self.password=username,password
+#         self.post_data={'username':self.username,
+#                    'password':self.password,
+#                    }
+#         self.post_url='http://pythonscraping.com/pages/cookies/welcome.php'
+#     def web_post(self):
+#         s=requests.session()
+#         page_source=s.post(self.post_url,data=self.post_data)
+#         print(page_source.cookies.get_dict())
+#         print('----------')
+#         check_page=s.get('http://pythonscraping.com/pages/cookies/profile.php')
+#         print(check_page.text)
+#
+# if __name__=='__main__':
+#     Crawl('wangjianfeng','password').web_post()
+
+def loop0():
+    print('start loop0 at ',ctime())
+    sleep(4)
+    print('loop0 done at ',ctime())
+def loop1():
+    print('start loop1 at ',ctime())
+    sleep(2)
+    print('loop0 done at ',ctime())
+def main():
+    print('starting at ',ctime())
+    _thread.start_new_thread(loop0(),())
+    _thread.start_new_thread(loop1(),())
+    # loop0()
+    # loop1()
+    sleep(6)
+    print('all done at ',ctime())
+if __name__=='__main__':
     main()

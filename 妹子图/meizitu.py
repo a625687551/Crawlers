@@ -4,7 +4,7 @@ author='wangjianfeng'
 
 import requests
 from bs4 import BeautifulSoup
-import time
+import time,datetime
 import os
 from datetime import datetime,timedelta
 from pymongo import MongoClient
@@ -16,11 +16,11 @@ class meizi():
         path=path.strip()
         isExist=os.path.exists(os.path.join('/home/rising/图片/meizitu',path))
         if not isExist:
-            print(u'创建一个名叫：',path,u'的文件夹','时间是',time.strftime('%Y-%m-%d %H:%M:%S',time.localtime()))
+            print(u'创建一个名叫：',path,u'的文件夹','时间是',datetime.datetime.now())
             os.mkdir(os.path.join('/home/rising/图片/meizitu',path))
             return True
         else:
-            print(u'名叫：',path,u'的文件夹已经存在','时间是',time.strftime('%Y-%m-%d %H:%M:%S',time.localtime()))
+            print(u'名叫：',path,u'的文件夹已经存在','时间是',datetime.datetime.now())
             return False
     def all_url(self,start_url):
         start_html = request.get(start_url,3)
