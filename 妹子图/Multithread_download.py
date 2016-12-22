@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import os
 import threading
 import multiprocessing
@@ -36,13 +37,13 @@ def mzitu_crawler(max_threads=10):
                 print(u'插入数据库成功')
     def save(img_url):
         name=img_url[-9:-4]
-        print(u'开始保存：',img_url)
+        print(u'开始保存：',img_url,u'时间为',datetime.now())
         img=request.get(img_url,3)
         with open(name+'.jpg','ab') as f:
             f.write(img.content)
 
     def mkdir(path):
-        path=path.strip()
+        path=path.strip()##发现一个错误[Errno 2] No such file or directory: '1/151.jpg'
         isExists=os.path.exists(os.path.join('F:\meizitu', path))
         if not isExists:
             print(u'建了一个名字叫',path,u'的文件夹')
