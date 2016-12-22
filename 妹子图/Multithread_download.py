@@ -46,11 +46,12 @@ def mzitu_crawler(max_threads=10):
         isExists=os.path.exists(os.path.join('F:\meizitu', path))
         if not isExists:
             print(u'建了一个名字叫',path,u'的文件夹')
-            os.mkdir(os.path.join('F:\meizitu',path))
+            os.makedirs(os.path.join('F:\meizitu',path))
             return True
         else:
             print(u'名字叫',path,u'的文件夹已经存在了')
             return False
+
     threads=[]
     while threads or crawl_queue:
         '''
@@ -60,8 +61,8 @@ def mzitu_crawler(max_threads=10):
         for thread in threads:
             if not thread.is_alive():##判断是否为空
                 threads.remove(thread)
-        while len(threads)<max_threads or crawl_queue.peek():#线程池中线程少于max_threads or crawl_queue时候
-            thread=threading.Thread(target=pageurl_crawler())
+        while len(threads) < max_threads or crawl_queue.peek():#线程池中线程少于max_threads or crawl_queue时候
+            thread=threading.Thread(target=pageurl_crawler)##创建线程
             thread.setDaemon(True)##设置守护线程
             thread.start()#启动线程
             threads.append(thread)##添加进入线程队列

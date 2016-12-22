@@ -26,7 +26,7 @@ class MogoQueue():
             pass
     def push_imgurl(self, url, title):
         try:
-            self.db.insert({'_id': title, 'status': self.OUTSTANDING, '主题': url})
+            self.db.insert({'_id': title, 'status': self.OUTSTANDING, 'url': url})
             print(url, u'图片插入队列成功')
         except errors.DuplicateKeyError as e:
             print(url, u'地址已经存在')
