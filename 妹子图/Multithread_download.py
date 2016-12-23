@@ -11,8 +11,8 @@ from bs4 import BeautifulSoup
 
 SLEEP_TIME=1
 def mzitu_crawler(max_threads=10):
-    crawl_queue=MogoQueue('meinvxiezhenji','crawl_queue')##这个是获取URL的队列
-    img_queue=MogoQueue('meinvxiezhenji','img_queue')
+    crawl_queue=MogoQueue('meizitu','crawl_queue')##这个是获取URL的队列
+    img_queue=MogoQueue('meizitu','img_queue')
     def pageurl_crawler():
         while True:
             try:
@@ -44,7 +44,6 @@ def mzitu_crawler(max_threads=10):
         img=request.get(img_url,3)
         with open(name+'.jpg','ab') as f:
             f.write(img.content)
-
     def mkdir(path):
         path=re.sub(r'\\/:*?"<>|','',path.strip())##避免出现照片名字出现各种符号无法命名
         # path=''.join([i for i in path if i not in string.punctuation])##另一个方法
@@ -59,12 +58,13 @@ def mzitu_crawler(max_threads=10):
             print(u'名字叫',path,u'的文件夹已经存在了')
             return False
 
-    threads=[]
+    threads = []
     while threads or crawl_queue:
         '''
-        这里用上craw_queue，也就是__bool__函数的作用，为真则代表我们MongoDB队列里面还有数据threads 或者
+        这里用上crawl_queue，也就是__bool__函数的作用，为真则代表我们MongoDB队列里面还有数据threads 或者
         craw_queue为真都代表我们还没有下载完毕，程序会继续执行
         '''
+        print('12')
         for thread in threads:
             if not thread.is_alive():##判断是否为空
                 threads.remove(thread)
@@ -78,6 +78,7 @@ def process_crawler():
     process=[]
     num_cpus=multiprocessing.cpu_count()
     print(u'将会启动进程数为',num_cpus)
+
     for i in range(num_cpus):
         p=multiprocessing.Process(target=mzitu_crawler)#创建进程进行
         p.start()##启动进程
@@ -86,11 +87,11 @@ def process_crawler():
         p.join()##等待进程队里里面的进程结束
 
     # pool=multiprocessing.Pool()
-    # num_cpus=multiprocessing.cpu_count()
     # for i in range(num_cpus):
-    #     pool.apply_async(mzitu_crawler,(10,))
+    #     process.append(pool.apply_async(mzitu_crawler))
     # pool.close()
     # pool.join()
+
     print('subprocess all done',datetime.now())
 if __name__ == '__main__':
     process_crawler()
