@@ -27,8 +27,8 @@ def mzitu_crawler(max_threads=10):
                 title=crawl_queue.pop_title(url)
                 path=str(title).replace('?','')
                 mkdir(path)
-                # os.chdir('F:\meizitu\\'+path)##win
-                os.chdir('/home/rising/图片/meizitu/' + path)  # 切换到对应的目录，乌班图系统
+                os.chdir('F:\meizitu\\'+path)##win
+                # os.chdir('/home/rising/图片/meizitu/' + path)  # 切换到对应的目录，乌班图系统
                 max_span=BeautifulSoup(req,'lxml').find('div',class_='pagenavi').find_all('span')[-2].get_text()
                 for page in range(1,int(max_span)+1):
                     page_url=url+'/'+str(page)
@@ -48,12 +48,12 @@ def mzitu_crawler(max_threads=10):
     def mkdir(path):
         path=re.sub(r'\\/:*?"<>|','',path.strip())##避免出现照片名字出现各种符号无法命名
         # path=''.join([i for i in path if i not in string.punctuation])##另一个方法
-        # isExists=os.path.exists(os.path.join('F:\meizitu', path))
-        isExists = os.path.exists(os.path.join('/home/rising/图片/meizitu', path))#Ubuntu
+        isExists=os.path.exists(os.path.join('F:\meizitu', path))
+        # isExists = os.path.exists(os.path.join('/home/rising/图片/meizitu', path))#Ubuntu
         if not isExists:
             print(u'建了一个名字叫',path,u'的文件夹')
-            # os.makedirs(os.path.join('F:\meizitu',path))
-            os.makedirs(os.path.join('/home/rising/图片/meizitu', path))
+            os.makedirs(os.path.join('F:\meizitu',path))
+            # os.makedirs(os.path.join('/home/rising/图片/meizitu', path))
             return True
         else:
             print(u'名字叫',path,u'的文件夹已经存在了')
@@ -84,5 +84,13 @@ def process_crawler():
         process.append(p)##添加进入进程队列
     for p in process:
         p.join()##等待进程队里里面的进程结束
+
+    # pool=multiprocessing.Pool()
+    # num_cpus=multiprocessing.cpu_count()
+    # for i in range(num_cpus):
+    #     pool.apply_async(mzitu_crawler,(10,))
+    # pool.close()
+    # pool.join()
+    print('subprocess all done',datetime.now())
 if __name__ == '__main__':
     process_crawler()
