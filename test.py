@@ -15,59 +15,54 @@ import threading
 import re
 from atexit import register
 from urllib.request import urlopen as uopen
+from urllib.parse import  quote
+import smtplib
+import sys
+import os
 
-# class Crawl(object):
-#     def __init__(self,username,password):
-#         self.username,self.password=username,password
-#         self.post_data={'username':self.username,
-#                    'password':self.password,
-#                    }
-#         self.post_url='http://pythonscraping.com/pages/cookies/welcome.php'
-#     def web_post(self):
-#         page_source=requests.post(self.post_url,self.post_data)
-#         print(page_source.text)
-#         print(page_source.cookies.get_dict())
-#         print('---------------')
-#         login_page=requests.get('http://pythonscraping.com/pages/cookies/profile.php',cookies=page_source.cookies)
-#         print(login_page.text)
+# fromaddr=input('from:')
+# toaddr=input('to:').split(',')
+# print('enter message,end with ^D')
 #
-# if __name__=='__main__':
-#     Crawl('wangjianfeng','password').web_post()
-
-#session 方法
-# class Crawl(object):
-#     def __init__(self,username,password):
-#         self.username,self.password=username,password
-#         self.post_data={'username':self.username,
-#                    'password':self.password,
-#                    }
-#         self.post_url='http://pythonscraping.com/pages/cookies/welcome.php'
-#     def web_post(self):
-#         s=requests.session()
-#         page_source=s.post(self.post_url,data=self.post_data)
-#         print(page_source.cookies.get_dict())
-#         print('----------')
-#         check_page=s.get('http://pythonscraping.com/pages/cookies/profile.php')
-#         print(check_page.text)
+# msg=''
+# while 1:
+#     line=sys.stdin.readlines()
+#     if not line:
+#         break
+#     msg=msg+line
 #
-# if __name__=='__main__':
-#     Crawl('wangjianfeng','password').web_post()
+# server=smtplib.SMTP('localhost')
+# server.sendmail(from_addr=fromaddr,to_addrs=toaddr,msg=msg)
+# server.quit()
 
-def loop0():
-    print('start loop0 at ',ctime())
-    sleep(4)
-    print('loop0 done at ',ctime())
-def loop1():
-    print('start loop1 at ',ctime())
-    sleep(2)
-    print('loop0 done at ',ctime())
-def main():
-    print('starting at ',ctime())
-    # _thread.start_new_thread(loop0(),())
-    # _thread.start_new_thread(loop1(),())
-    # loop0()
-    # loop1()
-    sleep(6)
-    print('all done at ',ctime())
-if __name__=='__main__':
-    main()
+# def mean(sorted_list):
+#     if not sorted_list:
+#         return ([],[])
+#     big=sorted_list[-1]
+#     small=sorted_list[-2]
+#
+#     big_list,small_list=mean(sorted_list[:-2])
+#
+#     big_list.append(small)
+#     small_list.append(big)
+#
+#     big_list_sum=sum(big_list)
+#     small_list_sum=sum(small_list)
+#
+#     if big_list_sum>small_list_sum:
+#         return ((big_list,small_list))
+#     else:
+#         return((small_list,big_list))
+# test=[1,2,3,4,5,6,7,8]
+# print(mean(test))
+
+def getfiles(dir,suffix):
+    res=[]
+    for root,directory,files in os.walk(dir):
+        for file in files:
+            name,suf=os.path.splitext(file)
+            if suf==suffix:
+                res.append(os.path.join(root,file))
+    return res
+t=getfiles(r'F:\一通审查意见-专利','.tif')
+print(t)
