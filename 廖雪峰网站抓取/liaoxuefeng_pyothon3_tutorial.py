@@ -57,8 +57,9 @@ def parse_url_to_html(url,name):
         pattern= "(<img .*?src=\")(.*?)(\")"
 
         def func(m):
-            if not m.group(3).startswith('http'):
+            if not m.group(2).startswith('http://'):
                 rtn=m.group(1)+'http://www.liaoxuefeng.com'+m.group(2)+m.group(3)
+                # print('m1 是',m.group(1),'m2 是',m.group(2),'m3 是',m.group(3))# 测试代码
                 return rtn
             else:
                 return m.group(1)+m.group(2)+m.group(3)
@@ -129,3 +130,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # parse_url_to_html(url='http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000', name='1')
