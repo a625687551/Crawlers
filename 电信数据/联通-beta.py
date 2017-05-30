@@ -19,7 +19,7 @@ import http.cookiejar as cookielib
 import json
 
 
-class Crawl():
+class Crawl(object):
     def __init__(self, username, passwd, debug=False):
         (self.username, self.passwd) = (username, passwd)
 
@@ -40,7 +40,7 @@ class Crawl():
 
     def get_html(self, url, postdata=''):
 
-        print ("Requesting for %s" % url)
+        print("Requesting for %s" % url)
 
         if postdata != '':
             req = urllib.Request(url, postdata)
@@ -56,18 +56,19 @@ class Crawl():
         try:
             resp = urllib.urlopen(req)
         except Exception as e:
-            print (e)
+            print(e)
 
         self.last_url = url
         if self.is_debug:
-            print( "method: %s" % req.get_method())
+            print("method: %s" % req.get_method())
             crawl.tell_cookie()
 
         return resp
 
     def tell_cookie(self):
         for item in self.cookie:
-            print "cookie name : %s ---- value: %s" % (item.name, item.value)
+            print
+            "cookie name : %s ---- value: %s" % (item.name, item.value)
 
     def get_balance(self):
         # 首页
@@ -97,7 +98,6 @@ class Crawl():
         # cookie2 = "http://iservice.10010.com/e3/static/check/checklogin/?_=1420301171070"
         cookie2 = 'http://iservice.10010.com/e3/static/check/checklogin/?_=1479956969513'
 
-
         # 查询余额页面
         url_balance = "http://iservice.10010.com/e3/query/account_balance.html"
         # 查询余额接口
@@ -121,4 +121,5 @@ if __name__ == '__main__':
     info = crawl.get_balance()
 
     data = json.load(info)
-    print data['realtimebalance']
+    print
+    data['realtimebalance']

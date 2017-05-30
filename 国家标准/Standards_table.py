@@ -1,7 +1,7 @@
-#usr/bin/env python3
+# usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-__author__='fanxing'
+__author__ = 'fanxing'
 
 import requests
 from bs4 import BeautifulSoup
@@ -12,7 +12,8 @@ import time
 from sqlalchemy import create_engine
 from selenium import webdriver
 
-url = 'http://www.sac.gov.cn/was5/web/search?channelid=97779&templet=gjcxjg_detail.jsp&searchword=STANDARD_CODE=%27GB/T%2033174-2016%27&XZ=T&STANDARD_CODE=GB/T%2033174-2016'
+url = 'http://www.sac.gov.cn/was5/web/search?channelid=97779&templet=' \
+      'gjcxjg_detail.jsp&searchword=STANDARD_CODE=%27GB/T%2033174-2016%27&XZ=T&STANDARD_CODE=GB/T%2033174-2016'
 user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
              'Chrome/54.0.2840.99 Safari/537.36'
 headers = {'User-Agent': user_agent,

@@ -1,7 +1,5 @@
-#usr/bin/env python3
+# usr/bin/env python3
 # -*- coding:utf-8 -*-
-
-__author__='wangjianfeng'
 
 import requests
 import pandas as pd
@@ -12,15 +10,19 @@ from sqlalchemy import create_engine
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-class phantomjs_SS(object):
+__author__ = 'wangjianfeng'
+
+
+class PhantomjsSs(object):
     #
-    def __int__(self,url):
+    def __int__(self, url):
         service_args = ['--proxy=localhost:1080', '--proxy-type=socks5', ]
         driver = webdriver.PhantomJS(executable_path="C:\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe",
                                      service_args=service_args)
         driver.get(url)
         self.soup = BeautifulSoup(driver.page_source, 'lxml')
         driver.close()
+
     def spc_list(self):
         standard = []
         for x in self.soup.select(' div.search-left > div'):
@@ -71,7 +73,7 @@ class phantomjs_SS(object):
         return df
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     url = "http://www.spc.org.cn/gb168/online/GB%252017930-2013/?"
-    spc=phantomjs_SS(url)
+    spc = PhantomjsSs(url)
     spc.spc_content()
