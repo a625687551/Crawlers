@@ -56,22 +56,6 @@ import os
 # test=[1,2,3,4,5,6,7,8]
 # print(mean(test))
 
-<< << << < HEAD
-
-
-def getfiles(dir, suffix):
-    res = []
-    for root, directory, files in os.walk(dir):
-        for file in files:
-            name, suf = os.path.splitext(file)
-            if suf == suffix:
-                res.append(os.path.join(root, file))
-    return res
-
-
-t = getfiles(r'F:\一通审查意见-专利', '.tif')
-print(t)
-== == == =
 # def loop0():
 #     print('start loop0 at ',ctime())
 #     sleep(4)
@@ -95,4 +79,3 @@ s = ' bas b bd   ,  ab c  ok'
 a = s.split(' ')
 b = ' '.join(a[::-1])
 print(b)
->> >> >> > b20eb947798d3d0774dd6d6af9a1ce0b57ff1a69

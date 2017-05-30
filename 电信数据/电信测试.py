@@ -42,6 +42,7 @@ def get_xsrf():
     index_url = 'https://www.zhihu.com/'
     # 获取登录时候用到的xsrf
 
+
 index_page = session.get(index_url, headers=headers)
 html = index_page.text
 pattern = r'name="_xsrf" value="(.*?)"/>'
@@ -49,63 +50,56 @@ pattern = r'name="_xsrf" value="(.*?)"/>'
 _xsrf = re.findall(pattern, html)
 print(_xsrf)
 return _xsrf[0]  # 获取验证码
+
+
 def get_captcha():
-    t = str(int(time.time() * 1000))
-    captcha_url = 'http://www.zhihu.com/captcha.gif?r=' + t + "&type=login"
+    captcha_url = 'http://www.zhihu.com/captcha.gif?r=' + int(time.time()/1000) + "&type=login"
     r = session.get(captcha_url, headers=headers)
     with open('captcha.jpg', 'wb') as f:
         f.write(r.content)
-
-# 用pillow 的 Image 显示验证码
-# 如果没有安装 pillow 到源代码所在的目录去找到验证码然后手动输入
-try:
-    im = Image.open('captcha.jpg')
-    im.show()
-    im.close()
-except:
-    print(u'请到%s目录找到captcha.jpg手动输入' % os.path.abspath('captcha.jpg'))
-captcha = input('please input captcha \n')
-print('captcha code' + captcha)
-return captcha
+    # 用pillow 的 Image 显示验证码
+    # 如果没有安装 pillow 到源代码所在的目录去找到验证码然后手动输入
+    try:
+        im = Image.open('captcha.jpg')
+        im.show()
+        im.close()
+    except:
+        print(u'请到%s目录找到captcha.jpg手动输入' % os.path.abspath('captcha.jpg'))
+        captcha = input('please input captcha \n')
+        print ('captcha code' + captcha)
+        return captcha
 
 
 def isLogin():
-
-# 通过查看个人用户信息来判断
-url = "https://www.zhihu.com/settings/profile"
-login_code = session.get(url, headers=headers, allow_redirects=False).status_code
-if login_code == 200:
-    return True
-else:
-    return False
+    # 通过查看个人用户信息来判断
+    url = "https://www.zhihu.com/settings/profile"
+    login_code = session.get(url, headers=headers, allow_redirects=False).status_code
+    if login_code == 200:
+        return True
+    else:
+        return False
 
 
 def login(secret, account):
-
-# 通过输入用户名来判断是否是手机号码
+    # 通过输入用户名来判断是否是手机号码
     if re.match(r"^1\d{10}$", account):
         print('手机号码登录\n')
-    post_url = "https://www.zhihu.com/settings/profile"
-    post_data = {
-        '_xsrf': get_xsrf(),
-        'password': secret,
-        'remember_me': True,
-        'email': account
-                 >> >> >> > origin / master
-    }
-    else:
-    if '@' in account:
+        post_url = "https://www.zhihu.com/settings/profile"
+        post_data = {
+            '_xsrf': get_xsrf(),
+            'password': secret,
+            'remember_me': True,
+            'email': account
+        }
+    elif '@' in account:
         print('邮箱登录\n')
     else:
         print('你输入的账号有问题，请重新登录')
-    return 0
+        return 0
     post_url = 'http://www.zhihu.com/login/email'
     post_data = {
-                    '_xsrf': get_xsrf(),
-                    'password': secret,
-                << << << < HEAD
-    'captcha_type': 'cn',
-    'email': account
+        'captcha_type': 'cn',
+        'email': account
     }
     # 不要验证码直接登录
     login_page = session.post(post_url, data=post_data, headers=headers)
@@ -124,23 +118,8 @@ def login(secret, account):
     #     login_page=session.post(post_url,data=post_data,headers=headers)
     #     login_code=eval(login_page.text)
     #     print(login_code['msg'])
-== == == =
-'remember_me': True,
-'email': account
-}
-try:
-    # 不要验证码直接登录
-    login_page = session.post(post_url, data=post_data, headers=headers)
-    login_code = login_page.text
-    print(login_page.status_code)
-    print(login_code)
-except:
-    # 需要输入验证码登录
-    postdata['captcha'] = get_captcha()
-    login_page = session.post(post_url, data=post_data, headers=headers)
-    login_code = eval(login_page.text)
-    print(login_code['msg'])
->> >> >> > origin / master
+
+
 session.cookies.save()
 
 if __name__ == '__main__':
