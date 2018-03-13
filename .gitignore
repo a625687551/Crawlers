@@ -1,0 +1,9 @@
+.idea
+*.pyc
+*.swp
+*.swo
+*.pyo
+*.log
+*.DS_Store
+
+nohup.out
