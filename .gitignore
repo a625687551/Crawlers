@@ -4,7 +4,6 @@
 *.swo
 *.pyo
 *.log
-*.git
 *.DS_Store
 
 nohup.out
