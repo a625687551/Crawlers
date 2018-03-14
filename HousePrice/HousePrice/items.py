@@ -11,6 +11,7 @@ from scrapy import Field
 
 class HousepriceItem(scrapy.Item):
     house_name = Field()  # 小区名称
+    house_url = Field()  # 小区网址
     house_address = Field()  # 小区地址
     house_area = Field()  # 小区所属区域
     house_price = Field()  # 房价
