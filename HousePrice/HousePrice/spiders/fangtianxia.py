@@ -48,6 +48,7 @@ class Fangtianxia(Spider):
     def parse_detail(self, response):
         content = response.xpath('//div[@class="con clearfix"]')
         info_item = HousepriceItem({
+            "city_name": u"石家庄",
             "house_name": content.xpath('//a[@class="tt"]/text()').extract_first,
             "house_url": response.url,
             "house_address": content.xpath('').extract_first,

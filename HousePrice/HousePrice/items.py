@@ -10,6 +10,7 @@ from scrapy import Field
 
 
 class HousepriceItem(scrapy.Item):
+    city_name = Field()
     house_name = Field()  # 小区名称
     house_url = Field()  # 小区网址
     house_address = Field()  # 小区地址
