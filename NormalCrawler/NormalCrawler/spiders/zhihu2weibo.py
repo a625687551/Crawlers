@@ -8,13 +8,11 @@ import logging
 
 from scrapy import Spider
 from scrapy import Request
-from test.items import Zhihu2Weibo
+from NormalCrawler.NormalCrawler.items import Zhihu2Weibo
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
 date_format = '%Y-%m-%d %H:%M:%S'
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 class ZhihuSpdier(Spider):

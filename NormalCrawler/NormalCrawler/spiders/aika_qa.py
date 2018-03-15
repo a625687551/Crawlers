@@ -1,16 +1,13 @@
 # coding:utf-8
 import logging
-import sys
 
 from scrapy import Spider
 from scrapy import Request
-from test.items import AnswerItem
+from NormalCrawler.NormalCrawler.items import AnswerItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
 date_format = '%Y-%m-%d %H:%M:%S'
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 class Aikaqa(Spider):

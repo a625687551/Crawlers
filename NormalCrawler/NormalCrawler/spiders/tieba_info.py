@@ -5,12 +5,12 @@ import os
 import re
 import logging
 import sys
-from urllib import quote_plus
+from urllib.parse import quote_plus
 
 from lxml import etree
 from scrapy import Spider
 from scrapy import Request
-from test.items import TiebaItem
+from NormalCrawler.NormalCrawler.items import TiebaItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)

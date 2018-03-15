@@ -6,7 +6,7 @@ import sys
 from lxml import etree
 from scrapy import Spider
 from scrapy.http import Request
-from test.items import TiebaItem
+from NormalCrawler.NormalCrawler.items import TiebaItem
 
 date_format = '%Y-%m-%d %H:%M:%S'
 logger = logging.getLogger(__name__)

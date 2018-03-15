@@ -17,9 +17,22 @@ date_format = '%Y-%m-%d %H:%M:%S'
 class TianyanSpider(Spider):
     name = "tianyancha"
     list_url = "https://www.tianyancha.com/search/p1?key={kw}"
+    custom_settings = {
+        "DOWNLOAD_DELAY": 3,
+        "DEFAULT_REQUEST_HEADERS": {
+            "Accept-Encoding": "gzip, deflate, sdch",
+            "Accept-Language": "zh-CN,zh;q=0.8",
+            "Cache-Control": "max-age=0",
+            "Connection": "keep-alive",
+        },
+        "SPIDER_MIDDLEWARES": {
+            'NormalCrawler.NormalCrawler.middlewares.RandomUserAgent': 543,
+        }
+    }
 
     def start_requests(self):
-        key_list = ["通信", "通讯", "汽车", "地产", "母婴", "电子", "服饰", "软件", "公共关系", "公关", "数码"]
+        # key_list = ["通信", "通讯", "汽车", "地产", "母婴", "电子", "服饰", "软件", "公共关系", "公关", "数码"]
+        key_list = ["批发零售", "餐饮", "住宿", "建材", "商贸", "美容院", "艾灸", "教育培训"]
         for kw in key_list:
             logger.info(u"search keyword {}".format(kw))
             kw = quote_plus(kw)

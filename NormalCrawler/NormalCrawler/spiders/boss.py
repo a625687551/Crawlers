@@ -5,10 +5,10 @@ import json
 
 from scrapy import Spider
 from scrapy import Request
-from urllib import quote_plus
+from urllib.parse import quote_plus
 from lxml import etree
 
-from test.items import BossItem
+from NormalCrawler.NormalCrawler.items import BossItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)

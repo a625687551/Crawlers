@@ -13,13 +13,11 @@ from scrapy import Request
 from scrapy import Spider
 
 import dateformatting
-from test.items import LiveItem
+from NormalCrawler.NormalCrawler.items import LiveItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
 date_format = '%Y-%m-%d %H:%M:%S'
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 class YizhiboMonitor(Spider):
