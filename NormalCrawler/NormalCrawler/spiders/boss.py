@@ -1,7 +1,6 @@
 # coding:utf-8
-import logging
-import sys
 import json
+import logging
 
 from scrapy import Spider
 from scrapy import Request
@@ -13,8 +12,6 @@ from NormalCrawler.NormalCrawler.items import BossItem
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
 date_format = '%Y-%m-%d %H:%M:%S'
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 city_ids = {101010100: u"北京"}
 key_words = ["数据分析"]

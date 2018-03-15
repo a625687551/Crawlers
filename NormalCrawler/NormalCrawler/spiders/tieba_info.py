@@ -4,7 +4,6 @@
 import os
 import re
 import logging
-import sys
 from urllib.parse import quote_plus
 
 from lxml import etree
@@ -15,8 +14,6 @@ from NormalCrawler.NormalCrawler.items import TiebaItem
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
 date_format = '%Y-%m-%d %H:%M:%S'
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 class TiebaSpider(Spider):

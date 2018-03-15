@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import sys
 
 from lxml import etree
 from scrapy import Spider
@@ -10,8 +9,6 @@ from NormalCrawler.NormalCrawler.items import TiebaItem
 
 date_format = '%Y-%m-%d %H:%M:%S'
 logger = logging.getLogger(__name__)
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 
 class BaiduTiebaSpider(Spider):
