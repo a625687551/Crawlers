@@ -12,7 +12,7 @@ from urllib.parse import quote_plus
 from scrapy import Spider
 from scrapy import Request
 
-from HousePrice.HousePrice.items import HousepriceItem
+from NormalCrawler.NormalCrawler.items import HousepriceItem
 
 base_url = "http://esf.sjz.fang.com"
 detail_tem = "http://{}.fang.com/xiangqing/"
