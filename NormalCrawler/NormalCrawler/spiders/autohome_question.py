@@ -1,15 +1,15 @@
 # !/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-import logging
-import fontTools
 import re
-import time
-import traceback
+import logging
+import random
+import json
 
 from scrapy import Request
 from scrapy import Spider
 
+from extract.parser import parse_kw
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -67,8 +67,66 @@ class AutohomeQuestion(Spider):
         yield Request(cat_url, callback=self.parse_class, headers={"Referer": response.url},
                       meta={"post_item": post_item, "tid": tid, "rid": rid})
 
-    def parse_ttf(self, response):
-        pass
-
     def parse_class(self, response):
-        pass
+        logger.info('class url is {}'.format(response.url))
+        post_item = response.meta["post_item"]
+        tid = response.meta["tid"]
+        rid = response.meta["rid"]
+
+        data_list = re.findall(r"var qaextend = ({.*?});", response.body)
+        if data_list:
+            data = json.loads(data_list[0].decode("gbk"))
+            # result = " > ".join(
+            #     map(lambda x: data.get(x, "").strip(), ["brandName", "seriesName", "class1Name", "class2Name"]))
+            result = " > ".join(
+                filter(None, map(lambda x: data.get(x, ""), ["brandName", "seriesName", "class1Name", "class2Name"])))
+            post_item["classes"] = result
+        else:
+            # not a QA post
+            post_item["classes"] = ""
+            # praise
+        logger.info(post_item)
+        yield post_item
+
+        # if rid:
+        #     praise_url = useful_url.format(tid=tid, rids=rid, t=time.time() * 1000)
+        #     yield Request(praise_url, callback=self.parse_praise, headers={"Referer": post_item["url"]},
+        #                   meta={"post_item": post_item})
+
+    def parse_praise(self, response):
+        logger.info('praise  url is {}'.format(response.url))
+        post_item = response.meta["post_item"]
+        body = response.body[15:]
+        info = json.loads(body)["UsefulList"]
+        if len(info) == 0:
+            post_item["praise_num"] = 0
+        else:
+            post_item["praise_num"] = info[0]["UsefulCount"]
+        logger.info(post_item)
+        # dumper = CSVDumper("auto_qa_aodi.csv")
+        # dumper.process_item(CSVLineItem(columns=post_item), None)
+
+    def get_text(self, response):
+        # kw_map = self.pool.apply(parse_kw, (response.body.decode("gbk", "ignore"),))
+        kw_map = parse_kw(response.body.decode("gbk", "ignore"))
+        page = etree.HTML(response.body.decode("gbk", "ignore"))
+
+        if page.xpath('//div[@id="maxwrap-maintopic"]//div[@class="w740"]'):
+            content = page.xpath('//div[@id="maxwrap-maintopic"]//div[@class="w740"]')[0]
+        else:
+            return ''
+        for script in content.xpath('.//script'):
+            script.text = ''
+
+        for style in content.xpath('.//style'):
+            style.text = ''
+
+        fs = page.xpath('//span[@style="font-family: myfont;"]')
+        for font in fs:
+            if font.text.strip() in kw_map:
+                font.text = kw_map[font.text.strip()]
+        return content.xpath('normalize-space()').replace('%nbsp', ' ')
+
+    @property
+    def random_ip(self):
+        return "201.{}.{}.{}".format(random.randrange(256), random.randrange(256), random.randrange(256))

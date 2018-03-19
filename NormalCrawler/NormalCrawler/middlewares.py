@@ -6,9 +6,15 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 import random
-from fake_useragent import UserAgent
+import logging
 
+from fake_useragent import UserAgent
 from scrapy import signals
+from scrapy.downloadermiddlewares.retry import RetryMiddleware
+from scrapy.utils.response import response_status_message
+
+logger = logging.getLogger(__file__)
+logger.setLevel(logging.INFO)
 
 
 class NormalcrawlerSpiderMiddleware(object):
@@ -110,3 +116,18 @@ class RandomUserAgent(object):
     def process_request(self, request):
         ua = UserAgent()
         request.headers['User-Agent'] = ua.chrome
+
+
+class AutohomeRetryMiddleware(RetryMiddleware):
+    def process_response(self, request, response, spider):
+        if request.meta.get('dont_retry', False):
+            return response
+
+        if response.status in self.retry_http_codes:
+            reason = response_status_message(response.status)
+            return self._retry(request, reason, spider) or response
+
+        if response.url.startswith("http://safety.autohome.com.cn"):
+            reason = "userverify retry "
+            return self._retry(request, reason, spider) or response
+        return response
