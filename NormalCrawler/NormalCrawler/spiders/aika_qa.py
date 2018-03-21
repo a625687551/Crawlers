@@ -3,7 +3,7 @@ import logging
 
 from scrapy import Spider
 from scrapy import Request
-from NormalCrawler.NormalCrawler.items import AnswerItem
+from NormalCrawler.items import AnswerItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)

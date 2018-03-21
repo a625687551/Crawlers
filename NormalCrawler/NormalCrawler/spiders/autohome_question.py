@@ -9,7 +9,7 @@ import json
 from scrapy import Request
 from scrapy import Spider
 
-from extract.parser import parse_kw
+from .extract.parser import parse_kw
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)

@@ -8,6 +8,7 @@ import socket
 import logging
 import tempfile
 import traceback
+import os
 from threading import Timer
 from multiprocessing import Process
 
@@ -33,8 +34,7 @@ def gen_headers(referer=None):
     if referer:
         headers["Referer"] = referer
     return headers
-
-
+print(os.getcwd())
 with open("font", "rb") as f:
     font_dict = json.loads(f.read())
 

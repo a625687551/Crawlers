@@ -7,7 +7,7 @@ from scrapy import Request
 from urllib.parse import quote_plus
 from lxml import etree
 
-from NormalCrawler.NormalCrawler.items import BossItem
+from NormalCrawler.items import BossItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)

@@ -7,7 +7,7 @@ from scrapy import Spider
 from scrapy import Request
 from urllib.parse import quote_plus
 
-from CompanyCrawler.CompanyCrawler.items import CompanycrawlerItem
+from CompanyCrawler.items import CompanycrawlerItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
