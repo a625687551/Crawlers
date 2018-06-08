@@ -4,12 +4,9 @@ import random
 import json
 
 from scrapy import Spider
-from scrapy import Request
 from scrapy import FormRequest
-from urllib.parse import quote_plus
-from lxml import etree
 
-from boss_zhipin.items import BossItem
+from zhaopin.items import JobItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
@@ -41,13 +38,13 @@ headers = {
 
 
 class LaGou(Spider):
-    name = "lagou_2"
+    name = "lagou_city"
     custom_settings = {
         "DOWNLOAD_DELAY": 3,
         "COOKIES_ENABLED": False,
         "DOWNLOAD_TIMEOUT": 30,
         "DOWNLOADER_MIDDLEWARES": {
-            'boss_zhipin.middlewares.RandomProxyMiddleware': 100,
+            'zhaopin.middlewares.RandomProxyMiddleware': 100,
         },
     }
 
@@ -79,7 +76,7 @@ class LaGou(Spider):
         content = json.loads(response.body)
 
         for cell in content['content']["positionResult"]["result"]:
-            post_item = BossItem()
+            post_item = JobItem()
             post_item["city"] = response.meta["city"]
             post_item["job_name"] = cell["positionName"]
             post_item["job_url"] = detail_url.format(cell["positionId"])

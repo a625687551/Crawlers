@@ -4,11 +4,10 @@
 #
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
-import random
-import requests
-import time
 import json
+import time
 import hashlib
+import requests
 
 from scrapy import signals
 from fake_useragent import UserAgent
@@ -17,7 +16,7 @@ orderno = "YZ2018675882gvIV3Q&returnType"
 secret = "6d44d36fcda34bda881edf72d18d17db"
 
 
-class BossZhipinSpiderMiddleware(object):
+class ZhaopinSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.

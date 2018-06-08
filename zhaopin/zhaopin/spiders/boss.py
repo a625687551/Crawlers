@@ -8,7 +8,7 @@ from scrapy import Request
 from urllib.parse import quote_plus
 from lxml import etree
 
-from boss_zhipin.items import BossItem
+from zhaopin.items import JobItem
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)

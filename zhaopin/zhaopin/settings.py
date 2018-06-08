@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for boss_zhipin project
+# Scrapy settings for zhaopin project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,13 +9,13 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'boss_zhipin'
+BOT_NAME = 'zhaopin'
 
-SPIDER_MODULES = ['boss_zhipin.spiders']
-NEWSPIDER_MODULE = 'boss_zhipin.spiders'
+SPIDER_MODULES = ['zhaopin.spiders']
+NEWSPIDER_MODULE = 'zhaopin.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'boss_zhipin (+http://www.yourdomain.com)'
+# USER_AGENT = 'zhaopin (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -38,28 +38,22 @@ ROBOTSTXT_OBEY = False
 # TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-# RANDOM_UA_TYPE = 'random'  # 表示随机设置user-agent
 # DEFAULT_REQUEST_HEADERS = {
-#     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 '
-#                   '(KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1',
-#     "Accept-Encoding": "gzip, deflate, sdch",
-#     "Accept-Language": "zh-CN,zh;q=0.8",
-#     "Cache-Control": "max-age=0",
-#     "Connection": "keep-alive",
+#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+#   'Accept-Language': 'en',
 # }
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 # SPIDER_MIDDLEWARES = {
-#    'boss_zhipin.middlewares.BossZhipinSpiderMiddleware': 543,
+#    'zhaopin.middlewares.ZhaopinSpiderMiddleware': 543,
 # }
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-   # 'boss_zhipin.middlewares.MyCustomDownloaderMiddleware': 543,
-   #  'boss_zhipin.middlewares.RandomUserAgentMiddleware': 400,
-}
+# DOWNLOADER_MIDDLEWARES = {
+#    'zhaopin.middlewares.MyCustomDownloaderMiddleware': 543,
+# }
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -70,7 +64,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 # ITEM_PIPELINES = {
-#    'boss_zhipin.pipelines.BossZhipinPipeline': 300,
+#    'zhaopin.pipelines.ZhaopinPipeline': 300,
 # }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
