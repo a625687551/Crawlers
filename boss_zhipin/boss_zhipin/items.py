@@ -16,9 +16,10 @@ class BossItem(Item):
     job_url = Field()  # 工作网址
     publish_time = Field()  # 发布日期
     company_name = Field()  # 公司名字
-    companyField = Field()  # 公司领域
-    positionAdvantage = Field()  # 公司福利
-    badge = Field()  # 薪酬
+    company_industry = Field()  # 公司领域、行业
+    company_stage = Field()  # 公司融资阶段
+    job_welfare = Field()  # 公司福利
+    job_salary = Field()  # 薪酬
     job_exp = Field()  # 工作经验要求
     job_edu = Field()  # 学历要求
     job_sec = Field()  # 工作描述

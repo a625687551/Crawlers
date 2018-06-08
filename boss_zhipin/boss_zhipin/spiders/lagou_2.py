@@ -15,17 +15,7 @@ logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
 date_format = '%Y-%m-%d %H:%M:%S'
 
-city_ids = {101010100: u"北京", 101010101: u"上海", 101010102: u"西安", 101010103: u"杭州", 101010104: u"深圳", 101010105: u"广州"}
 key_words = ["数据分析", "数据挖掘", "数据建模", "机器学习"]
-# city_ids = {101010100: u"北京"}
-# key_words = ["数据分析"]
-# list_url_tem = "https://www.lagou.com/jobs/positionAjax.json?px=default&city={ct}&needAddtionalResult=false"
-list_url_tem = "https://www.lagou.com/jobs/positionAjax.json?needAddtionalResult=false"
-detail_url = "https://www.lagou.com/jobs/{}.html"
-
-
-def random_ip():
-    return "201.{}.{}.{}".format(random.randrange(256), random.randrange(256), random.randrange(256))
 
 headers = {
     "Host": "www.lagou.com",
@@ -35,7 +25,7 @@ headers = {
     "Accept": "application/json, text/javascript, */*; q=0.01",
     "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "zh-CN,zh;q=0.9",
-    "Referer": "https://www.lagou.com/jobs/list_%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98?px=default&city=%E5%8C%97%E4%BA%AC",
+    "Referer": "https://www.lagou.com/jobs/list_%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome Safari/537.36",
     }
 
@@ -50,39 +40,34 @@ class LaGou(Spider):
             'boss_zhipin.middlewares.RandomProxyMiddleware': 100,
         },
     }
+    list_url_tem = "https://www.lagou.com/jobs/positionAjax.json?needAddtionalResult=false"
+    detail_url = "https://www.lagou.com/jobs/{}.html"
+    refer = "https://www.lagou.com/jobs/list_{}?labelWords=&fromSearch=true&suginput="
 
     def start_requests(self):
         for kw in key_words:
-            for cid, name in city_ids.items():
-                url = list_url_tem.format(ct=name)
-                pg = 1
-                post_body = {
-                    'first': "true",
-                    'pn': str(pg),
-                    'kd': kw
-                }
-                # post_body = list_body.format(pg=1, kw=quote_plus(kw))
-                logger.info("will crawl url {}".format(url))
-                yield FormRequest(url=url, callback=self.parse_list, priority=6, formdata=post_body,
-                                  meta={"city": name, "kw": kw, "pg": pg}, headers=headers)
+            pg = 1
+            post_body = {
+                'first': "true",
+                'pn': str(pg),
+                'kd': kw
+            }
+            logger.info("will crawl url {}".format(self.list_url_tem))
+            yield FormRequest(url=self.list_url_tem, callback=self.parse_list, priority=6, formdata=post_body,
+                              meta={"kw": kw, "pg": pg}, headers=headers)
 
     def parse_list(self, response):
-        # print('--------------------------------------')
-        # print(response.headers)
-        # print(response.meta)
-        # print(response.body)
         logger.info("job list url {}".format(response.url))
         kw = response.meta["kw"]
-        city = response.meta["city"]
         pg = response.meta["pg"]
 
         content = json.loads(response.body)
 
         for cell in content['content']["positionResult"]["result"]:
             post_item = BossItem()
-            post_item["city"] = response.meta["city"]
+            post_item["city"] = cell["city"]
             post_item["job_name"] = cell["positionName"]
-            post_item["job_url"] = detail_url.format(cell["positionId"])
+            post_item["job_url"] = self.detail_url.format(cell["positionId"])
             post_item["publish_time"] = cell["createTime"]
             post_item["company_name"] = cell["companyFullName"]
             post_item["company_industry"] = cell["industryField"]
@@ -98,12 +83,11 @@ class LaGou(Spider):
 
         if pg < 30:
             pg = pg + 1
-            url = list_url_tem.format(ct=city)
             post_body = {
                 'first': "false",
                 'pn': str(pg),
                 'kd': kw
             }
-            logger.info("will crawl url {}".format(url))
-            yield FormRequest(url=url, callback=self.parse_list, priority=6, formdata=post_body,
-                              meta={"city": city, "kw": kw, "pg": pg}, headers=headers)
+            logger.info("will crawl url {}".format(self.list_url_tem))
+            yield FormRequest(url=self.list_url_tem, callback=self.parse_list, priority=6, formdata=post_body,
+                              meta={"kw": kw, "pg": pg}, headers=headers)

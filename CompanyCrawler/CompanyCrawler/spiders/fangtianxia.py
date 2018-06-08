@@ -42,6 +42,11 @@ class Fangtianxia(Spider):
             detail_url = detail_tem.format(detail_url)
             yield Request(detail_url, callback=self.parse_detail)
 
+        # next page
+        if response.xpath('//a[@id="PageControl1_hlk_next"]/@href'):
+            next_url = response.xpath('//a[@id="PageControl1_hlk_next"]/@href').extract_first()
+            yield Request(next_url, callback=self.parse_list)
+
     def parse_detail(self, response):
         content = response.xpath('//div[@class="con clearfix"]')
         from IPython import embed
