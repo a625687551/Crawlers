@@ -1,17 +1,17 @@
 #!usr/bin/env python3
 # _*_ coding: utf-8 _*_
 
-'糗事百科'
-
-__author__ = 'wangjianfeng'
+"""嗅事百科"""
 
 import requests
 import time
 import numpy as np
 from bs4 import BeautifulSoup
 
+__author__ = 'wangjianfeng'
 
-class Qiushi_spier(object):
+
+class QiushiSpier(object):
     def __init__(self):
         pass
 
@@ -35,10 +35,10 @@ class Qiushi_spier(object):
             list_soup = soup.find('div', {'id': 'content-left'})
 
             try_times += 1
-            if list_soup == None and try_times < 200:
+            if not list_soup and try_times < 200:
                 print('list=0')
                 continue
-            elif list_soup == None or len(list_soup) < 1:
+            elif not list_soup or len(list_soup) < 1:
                 break
 
             for story_info in list_soup.findAll('div', {'class': 'article block untagged mb15'}):

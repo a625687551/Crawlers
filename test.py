@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-'test'
+"""test"""
 
 from lxml import etree
 from bs4 import BeautifulSoup
@@ -19,6 +19,8 @@ from urllib.parse import quote
 import smtplib
 import sys
 import os
+from fontTools.ttLib import TTFont
+
 
 # fromaddr=input('from:')
 # toaddr=input('to:').split(',')
@@ -75,7 +77,7 @@ import os
 # if __name__=='__main__':
 #     main()
 
-s = ' bas b bd   ,  ab c  ok'
-a = s.split(' ')
-b = ' '.join(a[::-1])
-print(b)
+font = TTFont("autohome/autohome_1.ttf")
+uniList = font['cmap']
+# uniList = font['cmap'].tables[0].ttFont.getGlyphOrder()
+print(uniList)
