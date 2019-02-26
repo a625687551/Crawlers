@@ -8,10 +8,10 @@
 import asyncio
 import random
 import time
+import lxml
+
 from pyppeteer import launch
 from retrying import retry
-from lxml import etree
-import lxml
 
 js1 = '''() =>{
            Object.defineProperties(navigator,{
@@ -50,7 +50,7 @@ js5 = '''() =>{
 async def main(username, pwd, url):
     # browser = await launch()  # 不打开浏览器，无头浏览
     browser = await launch({
-        # 'headless': False,
+        'headless': False,
         'args': [
             '--disable-extensions',
             '--no-sandbox',
@@ -70,8 +70,9 @@ async def main(username, pwd, url):
     await page.screenshot({'path': './headless-test-result.png'})  # 截图测试
     time.sleep(2)
     # 检测是否有滑块
+    # 滑块代码<div id="nocaptcha" class="nc-container tb-login" data-nc-idx="1" style="display: block;">
     slider = await page.Jeval('#nocaptcha',
-                              'node => node.style')  # 滑块代码<div id="nocaptcha" class="nc-container tb-login" data-nc-idx="1" style="display: block;">
+                              'node => node.style')
     print('判断滑块====》', slider)
     if slider:
         print('存在滑块')
@@ -94,6 +95,7 @@ async def main(username, pwd, url):
         except Exception as e:
             error = None
             print('发生错误：', e)
+    time.sleep(2)
     await tianmao(page)
     await page.close()
 
@@ -148,18 +150,17 @@ async def tianmao(page):
     await page.setJavaScriptEnabled(enabled=True)
     await page.goto('https://thermos.tmall.com/search.htm')
     await asyncio.sleep(2)
-    content = await page.content()
-    tree = lxml.etree.HTML(content)
-    elecments = tree.xpath("//div[@class='J_TModule']/@id")
-    print(elecments)
-    for each in elecments:
-        print(each)
-    title = await page.title()
-    if title:
-        print('title', title)
+    # 抓取各个信息列表
+    element_list = await page.xpath('//div[@class="J_TItems"]//dd[@class="detail"]')
+    for item in element_list:
+        good_name = await item.xpath('./a').getProperty('textContent')
+        good_link = await item.xpath('./a').getProperty('href')
+        good_price = await item.xpath('.//span[@class="c-price"]').getProperty('textContent')
+        print(good_name, good_link, good_price)
 
 
 if __name__ == '__main__':
+    """手机验证码真的是无语"""
     username = '13552760745'  # 账号
     pwd = 'python2019'  # 密码
     url = 'https://login.taobao.com/member/login.jhtml?style=mini&from=b2b&full_redirect=true'  # 淘宝登录地址
