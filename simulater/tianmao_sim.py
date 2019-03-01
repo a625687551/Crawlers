@@ -161,8 +161,8 @@ async def tianmao(page):
 
 if __name__ == '__main__':
     """手机验证码真的是无语"""
-    username = '13552760745'  # 账号
-    pwd = 'python2019'  # 密码
+    username = '2222'  # 账号
+    pwd = '22222'  # 密码
     url = 'https://login.taobao.com/member/login.jhtml?style=mini&from=b2b&full_redirect=true'  # 淘宝登录地址
     # loop = asyncio.get_event_loop()  # 事件循环，开启个无限循环的程序流程，把一些函数注册到事件循环上。当满足事件发生的时候，调用相应的协程函数。
     # result = loop.run_until_complete(main(username, pwd, url))  # 将协程注册到事件循环，并启动事件循环
